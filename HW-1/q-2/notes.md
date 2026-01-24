@@ -1,0 +1,1 @@
+1. to connect to the postgres database, we need its service name, which is simply "db", and for the port we need the internal port. If the mapping is 5433 (host), then inside the network we need 5432 (internal). The answer is db:5432.

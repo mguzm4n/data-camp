@@ -1,0 +1,42 @@
+services:
+  python-loader:
+    build: .
+    depends_on:
+      - db
+    working_dir: /app
+    environment:
+      PGHOST: db
+      PGPORT: "5432"
+      PGDATABASE: ny_taxi
+      PGUSER: postgres
+      PGPASSWORD: postgres
+    volumes:
+      - ./:/app
+      - ./data/green_tripdata_2025-11.parquet:/data/green_tripdata.parquet:ro
+      - ./data/taxi_zone_lookup.csv:/data/taxi_zone.csv:ro
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+      POSTGRES_DB: 'ny_taxi'
+    ports:
+      - '5433:5432'
+    volumes:
+      - vol-pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "pgadmin@pgadmin.com"
+      PGADMIN_DEFAULT_PASSWORD: "pgadmin"
+    ports:
+      - "8080:80"
+    volumes:
+      - vol-pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  vol-pgdata:
+    name: vol-pgdata
+  vol-pgadmin_data:
+    name: vol-pgadmin_data

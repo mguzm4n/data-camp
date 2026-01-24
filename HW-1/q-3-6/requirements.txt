@@ -1,0 +1,6 @@
+pandas
+fastparquet
+# ipython
+# ipykernel
+sqlalchemy 
+psycopg2-binary
